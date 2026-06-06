@@ -221,29 +221,6 @@ Create:
 nano mongo-backup.sh
 ```
 
-```bash
-#!/bin/bash
-
-DATE=$(date +"%Y-%m-%d-%H-%M")
-
-BACKUP_DIR=/tmp/mongodb-backup-$DATE
-
-mkdir -p $BACKUP_DIR
-
-mongodump \
-  --db companydb \
-  --out $BACKUP_DIR
-
-tar -czf mongodb-$DATE.tar.gz $BACKUP_DIR
-
-aws s3 cp \
-mongodb-$DATE.tar.gz \
-s3://mongodb-backups/ \
---endpoint-url https://ACCOUNT_ID.r2.cloudflarestorage.com
-
-rm -rf $BACKUP_DIR
-rm mongodb-$DATE.tar.gz
-```
 
 Grant permissions:
 
@@ -334,25 +311,7 @@ Create:
 nano restore.sh
 ```
 
-```bash
-#!/bin/bash
 
-LATEST=$(aws s3 ls \
-s3://mongodb-backups \
---endpoint-url https://ACCOUNT_ID.r2.cloudflarestorage.com \
-| sort \
-| tail -n 1 \
-| awk '{print $4}')
-
-aws s3 cp \
-s3://mongodb-backups/$LATEST \
-. \
---endpoint-url https://ACCOUNT_ID.r2.cloudflarestorage.com
-
-tar -xzf $LATEST
-
-mongorestore mongodb-backup-*/
-```
 
 Make executable:
 
