@@ -83,15 +83,12 @@ Before starting, ensure you have:
 ```text
 automated-db-backups/
 │
-├── scripts/
-│   ├── mongo-backup.sh
+├── ├── mongo-backup.sh
 │   └── restore.sh
 │
-├── docs/
-│   └── architecture.png
+├── ── architecture.png
 │
-├── logs/
-│   └── backup.log
+├── backup.log
 │
 └── README.md
 ```
